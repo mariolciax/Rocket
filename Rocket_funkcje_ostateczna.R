@@ -4,6 +4,8 @@
 # install.packages("tictoc")
 # install.packages("foreach")
 # install.packages("doParallel")
+#install.packages('Rcpp')
+library(Rcpp)
 library(tictoc)
 library(foreach)
 library(doParallel)
@@ -115,10 +117,10 @@ apply_kernel_multivariate <- function(X, weights, length, bias, dilation, paddin
 }
 
 X_obs_poj <- function(X, wiersz, n_dim, n_columns) {
-  #funckja pomocnicza tworząca macierz zawierająca wszytskie szeregi czasowe tego 
-  #samego eksperymentu o różnych dimach (zapisane wierszowo, czyli każdy wymiar w innym wierszu)
-  #X: macierz szeregów czasowych; wiersz: numer potrzebnego wiersza; 
-  #n_dim: liczba wymiarów; n_timepoints: liczba eksperymentów
+  #funckja pomocnicza tworzÄ…ca macierz zawierajÄ…ca wszytskie szeregi czasowe tego 
+  #samego eksperymentu o rÃ³Å¼nych dimach (zapisane wierszowo, czyli kaÅ¼dy wymiar w innym wierszu)
+  #X: macierz szeregÃ³w czasowych; wiersz: numer potrzebnego wiersza; 
+  #n_dim: liczba wymiarÃ³w; n_timepoints: liczba eksperymentÃ³w
   
   A <- matrix(NA, nrow = n_dim, ncol = n_columns)
   for (j in 1:n_dim) {
@@ -130,7 +132,7 @@ X_obs_poj <- function(X, wiersz, n_dim, n_columns) {
 # WOLNA METODA
 # apply_kernels <- function(X, kernels){
 #   #X to 3d macierz: robimy list(M1, ..., Mn)
-#   #kernels: generujemy biorąc dane z dowolnej macierzy Mi
+#   #kernels: generujemy biorÄ…c dane z dowolnej macierzy Mi
 #   n_instances <- nrow(X[[1]])
 #   n_dim <- length(X)
 #   n_columns <- ncol(X[[1]])
@@ -296,7 +298,7 @@ predykcja_<-function( AK_test, liczba_klas, wynik_klasyfikacja){
   #funkcja buduje macierz dla kazdego modelu(liczba modeli =liczbie klas) przewidujac wartosci klas/targetu
   #AK_test: macierz po transformacie przez kernele danych testowych
   #liczba_klas: integer 
-  #wynik_klasyfikacji: lista skladajaca sie z dwoch element�w, 
+  #wynik_klasyfikacji: lista skladajaca sie z dwoch elementów, 
   #listy dopasowanych modeli i listy najlepszych lambd dla kazdego modelu
   y_predicted<-c()
   for (i in 1:liczba_klas){
@@ -642,7 +644,7 @@ make_Na <- function(dimensions, row_id, percent){
 
 
 zmiana_kolumny<-function(macierz){
-  #macierz: podajemy macierz w kt�rej chcemy zmienic miejsce kolumny klas
+  #macierz: podajemy macierz w której chcemy zmienic miejsce kolumny klas
   klasy<-macierz[,1]
   
   macierz<-cbind(macierz[,2:ncol(macierz)], klasy)
